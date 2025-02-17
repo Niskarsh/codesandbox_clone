@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fluentui/react": "^8.122.9",
+    "@fluentui/react-file-type-icons": "^8.12.7",
     "@monaco-editor/react": "^4.7.0",
     "next": "15.1.7",
     "react": "^19.0.0",

@@ -1,6 +1,9 @@
+'use client';
 // components/DraggableTreeNode.tsx
 import React, { FC, useRef } from 'react';
 import { useDrag, useDrop, DragSourceMonitor } from 'react-dnd';
+import { Icon } from '@fluentui/react/lib/Icon';
+import { getFileTypeIconProps } from '@fluentui/react-file-type-icons';
 import { FileNode } from './FileExplorer';
 
 export type DropPosition = 'above' | 'below';
@@ -48,17 +51,37 @@ const DraggableTreeNode: FC<DraggableTreeNodeProps> = ({
       if (!clientOffset) return;
       const hoverClientY = clientOffset.y - hoverRect.top;
       const position: DropPosition = hoverClientY < hoverMiddleY ? 'above' : 'below';
-      // Call onDrop to reposition the dragged node relative to this node
       onDrop(dragged.id, node.id, position);
     },
   });
 
   drag(drop(ref));
 
-  const isFolder = node.isFolder;;
+  // Determine if node is a folder
+  const isFolder = node.isFolder;
+
+  let extension = '';
+  if (!isFolder) {
+    const parts = String(node.title).split('.');
+    extension = parts.length > 1 ? parts[parts.length - 1] : '';
+  }
+
+  // Only call getFileTypeIconProps on the client
+  const fileIconProps =
+    !isFolder && typeof window !== 'undefined'
+      ? getFileTypeIconProps({ extension, size: 16 })
+      : {};
 
   return (
-    <div ref={ref} style={{ marginLeft: depth * 20, opacity: isDragging ? 0.5 : 1 }}>
+    <div
+      ref={ref}
+      style={{
+        marginLeft: depth * 20,
+        marginTop: '3px',
+        padding: '2px',
+        opacity: isDragging ? 0.5 : 1,
+      }}
+    >
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {isFolder ? (
           <span
@@ -78,7 +101,7 @@ const DraggableTreeNode: FC<DraggableTreeNodeProps> = ({
             fontFamily: 'Consolas, monospace',
           }}
         >
-          {isFolder ? '📁' : '📄'} {node.title}
+          {isFolder ? '📁' : <Icon {...fileIconProps} />} {node.title}
         </span>
       </div>
       {isFolder && node.isExpanded && node.children!.map((child, i) => (
