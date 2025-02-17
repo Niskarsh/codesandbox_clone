@@ -1,14 +1,10 @@
 // pages/index.tsx
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import { initializeFileTypeIcons } from '@fluentui/react-file-type-icons';
 import FileExplorer, { FileNode } from '../components/FileExplorer';
 
 // Dynamically import Monaco Editor (client-side only)
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
-
-// Register icons and pull the fonts from the default Microsoft Fluent CDN:
-initializeFileTypeIcons();
 
 // Helper function to update a file's content recursively in a tree
 const updateFileContent = (

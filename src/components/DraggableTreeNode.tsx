@@ -3,8 +3,6 @@
 import React, { FC, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useDrag, useDrop, DragSourceMonitor } from 'react-dnd';
-import { Icon } from '@fluentui/react/lib/Icon';
-import { getFileTypeIconProps } from '@fluentui/react-file-type-icons';
 import { FileNode } from './FileExplorer';
 
 export type DropPosition = 'above' | 'below';
@@ -21,9 +19,9 @@ interface DraggableTreeNodeProps {
 
 const DraggableTreeNode: FC<DraggableTreeNodeProps> = ({
     node,
-    index,
+    // index,
     depth,
-    siblings,
+    // siblings,
     onDrop,
     onToggle,
     onSelect,
@@ -67,7 +65,7 @@ const DraggableTreeNode: FC<DraggableTreeNodeProps> = ({
         const parts = String(node.title).split('.');
         extension = parts.length > 1 ? parts[parts.length - 1] : '';
     }
-    let iconSrc = `/fileImgs/${extension}.svg`
+    const iconSrc = `/fileImgs/${extension}.svg`
 
     return (
         <div
