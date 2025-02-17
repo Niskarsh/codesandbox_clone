@@ -1,6 +1,7 @@
 'use client';
 // components/DraggableTreeNode.tsx
 import React, { FC, useRef } from 'react';
+import Image from 'next/image';
 import { useDrag, useDrop, DragSourceMonitor } from 'react-dnd';
 import { Icon } from '@fluentui/react/lib/Icon';
 import { getFileTypeIconProps } from '@fluentui/react-file-type-icons';
@@ -65,12 +66,7 @@ const DraggableTreeNode: FC<DraggableTreeNodeProps> = ({
     const parts = String(node.title).split('.');
     extension = parts.length > 1 ? parts[parts.length - 1] : '';
   }
-
-  // Only call getFileTypeIconProps on the client
-  const fileIconProps =
-    !isFolder && typeof window !== 'undefined'
-      ? getFileTypeIconProps({ extension, size: 16 })
-      : {};
+  let iconSrc = `/fileImgs/${extension}.svg`
 
   return (
     <div
@@ -101,7 +97,7 @@ const DraggableTreeNode: FC<DraggableTreeNodeProps> = ({
             fontFamily: 'Consolas, monospace',
           }}
         >
-          {isFolder ? '📁' : <Icon {...fileIconProps} />} {node.title}
+          {isFolder ? '📁' : <Image src={iconSrc} alt={`${extension}`} width={16} height={13} />} {node.title}
         </span>
       </div>
       {isFolder && node.isExpanded && node.children!.map((child, i) => (
