@@ -14,5 +14,9 @@ export default {
       },
     },
   },
+  corePlugins: {
+    // Ensure preflight is not disabled
+    preflight: true,
+  },
   plugins: [],
 } satisfies Config;
